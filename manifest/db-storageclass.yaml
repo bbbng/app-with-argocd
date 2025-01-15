@@ -1,4 +1,4 @@
-kind: StorageClass
+kind: StorageClass # 오류가 발생하면 삭제하고 다시 생성하면 된다.
 apiVersion: storage.k8s.io/v1
 metadata:
   name: local-storage
