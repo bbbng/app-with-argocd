@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        repository: bbbng/app-with-argocd
+        repository: ${{ secrets.GH_USER}}/app-with-argocd
         ref: main
         token: ${{ secrets.GTOKEN }} # git commit, push에 사용할 token. pull에는 필요 없음
 
@@ -38,7 +38,7 @@ jobs:
     - name: Login to docker hub
       uses: docker/login-action@v3
       with:
-        username: hgreen726
+        username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Setup docker buildx
@@ -49,11 +49,11 @@ jobs:
       with:
         context: .
         push: true
-        tags: hgreen726/app-with-actions:${{ github.sha }}
+        tags: ${{ secrets.DOCKERHUB_USER }}/app-with-actions:${{ github.sha }}
 
     - name: Set up Image # update deployment yaml file to nginx:latest
       run: |
-        sed -i "s%image: hgreen726/app-with-actions:[A-z0-9]*%image: hgreen726/app-with-actions:${{ github.sha }}%" ./manifest/argocd-deployment.yaml
+        sed -i "s%image: ${{ secrets.DOCKERHUB_USER }}/app-with-actions:[A-z0-9]*%image: ${{ secrets.DOCKERHUB_USER }}/app-with-actions:${{ github.sha }}%" ./manifest/argocd-deployment.yaml
 
     - name: Commit and push changes # 수정한 deployment.yaml을 git에 commit, push
       run: |
