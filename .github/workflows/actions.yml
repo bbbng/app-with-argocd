@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        repository: ${{ secrets.GH_USER}}/app-with-argocd
+        repository: ${{ secrets.GH_USER }}/app-with-argocd
         ref: main
         token: ${{ secrets.GTOKEN }} # git commit, push에 사용할 token. pull에는 필요 없음
 
