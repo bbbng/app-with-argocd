@@ -4,7 +4,13 @@
 name: Maven Package
 
 on:
-  workflow_dispatch
+  push:
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - 'actions.yml'
+      - 'Dockerfile'
+      - 'manifest/**'
 
 jobs:
   build:
