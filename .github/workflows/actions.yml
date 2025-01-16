@@ -53,6 +53,12 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKERHUB_USER }}/app-with-actions:${{ github.sha }}
 
+  ArgoCD:
+
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+
     - name: github checkout
       uses: actions/checkout@v4
       with:
