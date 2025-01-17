@@ -77,6 +77,9 @@ jobs:
     #     push: true
     #     tags: ${{ secrets.DOCKERHUB_USER }}/app-with-actions:${{ github.sha }}
 
+    outputs:
+      REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+
   ArgoCD:
 
     runs-on: ubuntu-latest
@@ -92,7 +95,7 @@ jobs:
 
     - name: Update deployment.yaml # update deployment yaml file to nginx:latest
       env:
-        REGISTRY: '724772050614.dkr.ecr.ap-northeast-2.amazonaws.com'
+        REGISTRY: ${{ needs.build.outputs.REGISTRY }}
       run: |
         sed -i "s%image: $REGISTRY/nginx-test:[A-z0-9]*%image: $REGISTRY/nginx-test:${{ github.sha }}%" ./manifest/argocd-deployment.yaml
 
